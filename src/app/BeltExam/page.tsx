@@ -54,16 +54,17 @@ const BeltExam = () => {
               + Adicionar Mesa Avaliadora
             </Button>
 
+            {newEvaluationCommittee && (
+              <CardFooter className="flex flex-col gap-4">
+                <NewEvaluationCommittee 
+                  setNewEvaluationCommittee={setNewEvaluationCommittee}
+                />
+              </CardFooter>
+            )}
+            
             <EvaluationCommitte />
           </CardContent>
 
-          {newEvaluationCommittee && (
-            <CardFooter className="flex flex-col gap-4">
-              <NewEvaluationCommittee 
-                setNewEvaluationCommittee={setNewEvaluationCommittee}
-              />
-            </CardFooter>
-          )}
         </Card>
       )}
     </div>
