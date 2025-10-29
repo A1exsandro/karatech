@@ -7,17 +7,24 @@ import { Separator } from "@/components/ui/separator"
 import { PlusCircle } from "lucide-react"
 import NewEvaluationCommittee from "./NewEvaluationcommittee"
 import EvaluationCommitte from "./EvaluationCommittee"
+import { useCommitteeStore } from "@/shared/stores/committeeStore"
 
 const BeltExam = () => {
   const [creatingExam, setCreatingExam] = useState(false)
   const [newEvaluationCommittee, setNewEvaluationCommittee] = useState(false)
+  const { committee, createCommittee, clearCommittee } = useCommitteeStore()
+
+  const handleAddCommittee = () => {
+    //createCommittee() // 🔥 cria o objeto global
+    setNewEvaluationCommittee(true)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col items-center py-10">
       <h1 className="text-3xl font-bold mb-6 tracking-tight">🏅 Belt Exam</h1>
 
       {!creatingExam && (
-        <Button 
+        <Button
           onClick={() => setCreatingExam(true)}
           className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
         >
@@ -46,25 +53,36 @@ const BeltExam = () => {
 
             <Separator className="bg-slate-700" />
 
-            <Button 
-              onClick={() => setNewEvaluationCommittee(true)}
+            <Button
+              onClick={handleAddCommittee}
               variant="outline"
               className="hover:cursor-pointer hover:scale-110"
             >
               + Adicionar Mesa Avaliadora
             </Button>
-
+         
             {newEvaluationCommittee && (
-              <CardFooter className="flex flex-col gap-4">
-                <NewEvaluationCommittee 
+              <NewEvaluationCommittee
                   setNewEvaluationCommittee={setNewEvaluationCommittee}
                 />
-              </CardFooter>
             )}
-            
-            <EvaluationCommitte />
-          </CardContent>
 
+            {committee && (
+              <>
+                <EvaluationCommitte />
+                <CardFooter className="flex flex-col gap-4">
+                  <Button
+                    onClick={() => clearCommittee()}
+                    variant="destructive"
+                    className="mt-4"
+                    >
+                    Remover Mesa Avaliadora
+                  </Button>
+                </CardFooter>
+              </>
+            )}
+
+          </CardContent>
         </Card>
       )}
     </div>
